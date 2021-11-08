@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons (click)="retour()" slot="start">
+      <ion-button class="ic">
+        <ion-icon color="light" name="arrow-back-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{annonces.type}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="scroll($event)">
+
+  <ion-card class="slide">
+    <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
+
+      <ion-slide *ngFor="let img of annonces.image">
+        <img [src]="img"/>
+      </ion-slide>
+
+    </ion-slides>
+  </ion-card>
+
+  <ion-grid>
+    <ion-row>
+
+      <ion-col size="6">
+        <ion-card class="card" button (click)="call()">
+          <ion-button expand="block" fill="clear" color="dark">
+            <ion-icon slot="icon-only" name="call"></ion-icon>
+          </ion-button>
+          <h2>Appeler</h2>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card button (click)="sendSms()">
+          <ion-button expand="block" fill="clear" color="dark">
+            <ion-icon slot="icon-only" name="chatbubbles"></ion-icon>
+          </ion-button>
+          <h2>Sms</h2>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <!-- <ion-card class="detail">
+    <h3>Detail</h3>
+
+    <h5>Commodités populaires</h5>
+    <P>Wifi gratuit, Piscine, Climatisation, Spa, Restaurant</P>
+
+    <h5>Pratiques de nettoyage et de sécurité</h5>
+    <P>Nettoyé avec un désinfectant, Enregistrement sans contact, Désinfectant pour les mains fourni</P>
+
+  </ion-card><br> -->
+
+  <ion-card class="detail">
+    <h3>Description</h3>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis voluptate magni excepturi molestiae officiis. Illum repellat saepe quisquam! Porro quis laboriosam quam odio deserunt quaerat aut pariatur provident doloremque blanditiis!</p>
+
+  </ion-card><br>
+
+  <ion-card class="detail">
+    <h3>Condition</h3>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis voluptate magni excepturi molestiae officiis. Illum repellat saepe quisquam! Porro quis laboriosam quam odio deserunt quaerat aut pariatur provident doloremque blanditiis!</p>
+
+  </ion-card><br>
+
+  <ion-card class="detail">
+    <h3>Prix</h3>
+
+    <p>20000Fcfa par mois</p>
+
+  </ion-card><br>
+
+  <ion-card class="detail">
+    <h3>Référence</h3>
+
+    <p>123445578890</p>
+
+  </ion-card><br>
+
+  <ion-card class="detail">
+    <h3>Commodités populaires</h3>
+
+    <P>Wifi gratuit, Piscine, Climatisation, Spa, Restaurant</P>
+  </ion-card>
+  <br>
+
+  <ion-card class="detail">
+    <h3>Service</h3>
+
+    <P>Nettoyé avec un désinfectant, Enregistrement sans contact, Désinfectant pour les mains fourni</P>
+  </ion-card>
+  <br>
+
+  <div [class]="opacity">
+    <ion-button (click)="top()">
+      <ion-icon slot="icon-only" name="chevron-up-circle-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>

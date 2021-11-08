@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="vrai==false">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+
+    <!-- <ion-buttons (click)="rendreVrai()" *ngIf="vrai==true" slot="start">
+      <ion-button class="ic">
+        <ion-icon name="arrow-back-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-searchbar placeholder="Nom_Quartier, prix" (ionInput)="filtre($event)" *ngIf="vrai==true"></ion-searchbar>
+
+    <ion-buttons (click)="rendreVrai()" *ngIf="vrai==false" slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+
+    <ion-title *ngIf="vrai==false">Apparts Meublés</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs='12' size-sm='4' *ngFor="let annonce of annonces">
+        <ion-card mode="ios" button>
+          <ion-row>
+            <ion-col size="12">
+              <img (click)="goToDetail(annonce)" [src]="annonce.image[0]">
+            </ion-col>
+
+            <ion-col class="lateral" size="12">
+              <div>
+                <div class="flex">
+                  <div class="cl" (click)="goToDetail(annonce)">
+                    <h2>Prix: 20000/Mois</h2>
+                  </div>
+
+                  <div class="b">
+                    <ion-buttons>
+                      <ion-button (click)="save(annonce)" slot="icon-only">
+                        <ion-icon color="primary" name="heart"></ion-icon>
+                      </ion-button>
+                    </ion-buttons>
+                  </div>
+
+                </div>
+
+                <div class="descrip" (click)="goToDetail(annonce)">
+                  <p>{{annonce.detail}}</p>
+                  <!-- <p>Prix: 20000/Mois</p> -->
+                </div>
+
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

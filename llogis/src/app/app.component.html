@@ -1,0 +1,86 @@
+<!-- <ion-toolbar color="primary">
+  <ion-title><b>Logis</b></ion-title>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-buttons slot="end">
+    <ion-button (click)="onClick()">
+      <ion-icon slot="icon-only" name="search"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar> -->
+
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <ion-list id="inbox-list">
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="p.icon + '-sharp'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label><b>{{ p.title }}</b></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <ion-item-divider color='primary'>Categories</ion-item-divider>
+
+        <ion-list class="list" id="inbox-list">
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of cateries; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon [color]="p.color" slot="start" [ios]="p.icon" [md]="p.icon"></ion-icon>
+              <ion-label><b>{{ p.title }}</b></ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <!-- <ion-list id="labels-list">
+          <ion-list-header>Labels</ion-list-header>
+
+          <ion-item *ngFor="let label of labels" lines="none">
+            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+            <ion-label>{{ label }}</ion-label>
+          </ion-item>
+        </ion-list> -->
+
+        <!-- <h2>Reseaux sociaux</h2>
+        <ion-list>
+          <ion-item button>
+            <ion-icon color="warning" slot="start" name="star"></ion-icon>
+            <ion-label>Noter l'application</ion-label>
+          </ion-item>
+
+          <ion-item button>
+            <ion-icon color="dark" slot="start" name="people"></ion-icon>
+            <ion-label>inviter ses amis</ion-label>
+          </ion-item>
+        </ion-list>
+
+        <h2>Support</h2>
+        <ion-list>
+          <ion-item button>
+            <ion-icon color="danger" slot="start" name="mail"></ion-icon>
+            <ion-label>Nous contacter par Mail</ion-label>
+          </ion-item>
+
+          <ion-item button>
+            <ion-icon color="success" slot="start" name="logo-whatsapp"></ion-icon>
+            <ion-label>Nous contacter sur WhatsApp</ion-label>
+          </ion-item>
+        </ion-list>
+
+        <h2>Information</h2>
+        <ion-list>
+          <ion-item button>
+            <ion-icon color="dark" slot="start" name="person"></ion-icon>
+            <ion-label>Qui sommes-nous ?</ion-label>
+          </ion-item>
+        </ion-list> -->
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
+
+

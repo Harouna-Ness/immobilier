@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons (click)="retour()" slot="start">
+      <ion-button class="ic">
+        <ion-icon color="light" name="arrow-back-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>Logîs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs='12' size-sm='4' *ngFor="let annonce of annonces">
+        <ion-card mode="ios" button>
+          <ion-row>
+            <ion-col size="12">
+              <img (click)="goToDetail(annonce)" [src]="annonce.image[0]">
+            </ion-col>
+
+            <ion-col class="lateral" size="12">
+              <div>
+                <div class="flex">
+                  <div class="cl" (click)="goToDetail(annonce)">
+                    <h2>{{annonce.type}}</h2>
+                  </div>
+
+                  <div class="b">
+                    <ion-buttons>
+                      <ion-button (click)="save(annonce)" slot="icon-only">
+                        <ion-icon color="dark" name="heart"></ion-icon>
+                      </ion-button>
+                    </ion-buttons>
+                  </div>
+
+                </div>
+
+                <div class="descrip" (click)="goToDetail(annonce)">
+                  <p>{{annonce.detail}}</p>
+                  <p>Prix: 20000/Mois</p>
+                </div>
+
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
