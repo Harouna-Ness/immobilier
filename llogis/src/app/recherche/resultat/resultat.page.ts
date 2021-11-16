@@ -18,10 +18,10 @@ export class ResultatPage implements OnInit {
   }
 
   goToDetail(annonce: any) {
-    
+
   }
 
   save(annonce: any) {
-    
+
   }
 }

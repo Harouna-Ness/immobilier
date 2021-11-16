@@ -206,6 +206,7 @@ export class DetailPage implements OnInit {
       console.log("calling...");
     }).catch((err) => {
       console.log("err", err);
+      console.log("err2", err);
     })
   }
 

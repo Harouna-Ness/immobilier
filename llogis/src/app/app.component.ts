@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AngularFireAuth} from "@angular/fire/auth";
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -17,5 +18,10 @@ export class AppComponent {
     { title: 'Magasins', url: '/magasin', icon: 'storefront', color: '' },
   ]
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  constructor(private afAuth: AngularFireAuth) {
+    this.afAuth.signInAnonymously().then((user) => {
+      console.log("user anonyme", user);
+    });
+  }
+
 }

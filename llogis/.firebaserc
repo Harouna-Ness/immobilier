@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "memdb-40c0f": {
+      "hosting": {
+        "app": [
+          "memdb-40c0f"
+        ]
+      }
+    }
+  }
+}

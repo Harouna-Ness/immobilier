@@ -8,6 +8,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {CallNumber} from "@ionic-native/call-number/ngx";
 import {SMS} from "@ionic-native/sms/ngx";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +21,10 @@ import {SMS} from "@ionic-native/sms/ngx";
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
