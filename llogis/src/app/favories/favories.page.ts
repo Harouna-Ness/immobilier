@@ -9,6 +9,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class FavoriesPage implements OnInit {
   mesFavories: any[] = JSON.parse(localStorage.getItem('donnes'));
+  article: any;
 
   constructor(private router: Router, private toat: ToastController) {
     // this.mesFavories = JSON.parse(localStorage.getItem('donnes'));

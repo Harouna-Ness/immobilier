@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 // import { CallNumber } from '@ionic-native/call-number/ngx';
 // import { SMS } from '@ionic-native/sms/ngx';
 import { ActionSheetController, AlertController, IonContent, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import {SMS} from "@ionic-native/sms/ngx";
+import {CallNumber} from "@ionic-native/call-number/ngx";
 
 @Component({
   selector: 'app-detail',
@@ -38,6 +40,8 @@ export class DetailPage implements OnInit {
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
+    private sms: SMS,
+    private callNumber: CallNumber
     // private sms: SMS,
     // private appeler: CallNumber
     ) {
@@ -197,4 +201,19 @@ export class DetailPage implements OnInit {
   ngOnInit() {
   }
 
+  call() {
+    this.callNumber.callNumber("70272328", true).then((cal) => {
+      console.log("calling...");
+    }).catch((err) => {
+      console.log("err", err);
+    })
+  }
+
+  sendSms() {
+    this.sms.send("70272328", "Test message").then((result) => {
+      console.log(result);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
 }

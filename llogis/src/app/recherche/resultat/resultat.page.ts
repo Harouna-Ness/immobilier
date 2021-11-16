@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./resultat.page.scss'],
 })
 export class ResultatPage implements OnInit {
+  annonces: any;
 
   constructor(private location: Location) { }
 
@@ -16,4 +17,11 @@ export class ResultatPage implements OnInit {
   ngOnInit() {
   }
 
+  goToDetail(annonce: any) {
+    
+  }
+
+  save(annonce: any) {
+    
+  }
 }
