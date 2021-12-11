@@ -18,7 +18,7 @@
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-sharp'" [md]="p.icon + '-sharp'"></ion-icon>
+              <!-- <ion-icon slot="start" [ios]="p.icon + '-sharp'" [md]="p.icon + '-sharp'"></ion-icon> -->
               <ion-label><b>{{ p.title }}</b></ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -29,7 +29,7 @@
         <ion-list class="list" id="inbox-list">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of cateries; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon [color]="p.color" slot="start" [ios]="p.icon" [md]="p.icon"></ion-icon>
+              <!-- <ion-icon [color]="p.color" slot="start" [ios]="p.icon" [md]="p.icon"></ion-icon> -->
               <ion-label><b>{{ p.title }}</b></ion-label>
             </ion-item>
           </ion-menu-toggle>

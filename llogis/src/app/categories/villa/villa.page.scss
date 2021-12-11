@@ -1,6 +1,30 @@
 ion-content{
   --ion-background-color: rgb(253, 253, 251);
 }
+.chips{
+  display: flex;
+  overflow: scroll;
+}
+.slideT{
+  min-width: 54.312px;
+  max-width: 54.312px;
+}
+.slideM{
+  min-width: 140.312px;
+  max-width: 140.312px;
+}
+.slideNM{
+  min-width: 169.312px;
+  max-width: 169.312px;
+}
+.slideMag{
+  min-width: 95.312px;
+  max-width: 95.312px;
+}
+.slideV{
+  min-width: 68.312px;
+  max-width: 68.312px;
+}
 .ic{
     font-size: 19px;
 }

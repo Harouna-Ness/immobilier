@@ -20,17 +20,54 @@
     <ion-title *ngIf="vrai==false">Logîs</ion-title>
   </ion-toolbar>
 
+  <div class="chips">
+    <ion-chip class="slideT" color="primary" mode="ios" [routerLink]="['/annonce']">
+      <ion-label>Tout</ion-label>
+    </ion-chip>
+    <ion-chip class="slideM" color="primary" mode="ios" outline="true" [routerLink]="['/appatement']">
+      <ion-label>Apparts Meublés</ion-label>
+    </ion-chip>
+    <ion-chip class="slideNM" color="primary" mode="ios" outline="true" [routerLink]="['/cours-com']">
+      <ion-label>Apparts Non Meublés</ion-label>
+    </ion-chip>
+    <ion-chip class="slideMag" color="primary" mode="ios" outline="true" [routerLink]="['/magasin']">
+      <ion-label>Magasins</ion-label>
+    </ion-chip>
+    <ion-chip class="slideV" color="primary" mode="ios" outline="true" [routerLink]="['/villa']">
+      <ion-label>Villas</ion-label>
+    </ion-chip>
+  </div>
+
+  <!-- <ion-segment (ionChange)="segmentChanged($event)" color="primary" swipe-gesture scrollable>
+    <ion-segment-button value="Meublés">
+      <ion-label>Apparts Meublés</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="Non Meublés">
+      <ion-label>Apparts Non Meublés</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="Magasins">
+      <ion-label>Magasins</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="Villas">
+      <ion-label>Villas</ion-label>
+    </ion-segment-button>
+  </ion-segment> -->
+
 </ion-header>
 
 <ion-content>
 
-  <ion-grid>
+  <ion-grid *ngIf="annonces">
     <ion-row>
       <ion-col size-xs='12' size-sm='4' *ngFor="let annonce of annonces">
         <ion-card mode="ios" button>
           <ion-row>
             <ion-col size="12">
-              <img (click)="goToDetail(annonce)" [src]="annonce.image[0]">
+              <img (click)="goToDetail(annonce)" src='/assets/imo2.jpg'>
+              <!-- <img (click)="goToDetail(annonce)" [src]="annonce.image[0]"> -->
             </ion-col>
 
             <ion-col class="lateral" size="12">
@@ -51,8 +88,8 @@
                 </div>
 
                 <div class="descrip" (click)="goToDetail(annonce)">
-                  <p>{{annonce.detail}}</p>
-                  <p>Prix: 20000/Mois</p>
+                  <p>{{annonce.titre}}</p>
+                  <p>Prix: {{annonce.prix}}/{{annonce.formeOffre}}</p>
                 </div>
 
               </div>

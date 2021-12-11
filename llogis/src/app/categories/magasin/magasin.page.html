@@ -17,9 +17,31 @@
       </ion-button>
     </ion-buttons> -->
 
-    <ion-title *ngIf="vrai==false">Magasins</ion-title>
+    <ion-title *ngIf="vrai==false">Logîs</ion-title>
 
   </ion-toolbar>
+
+  <div class="chips">
+    <ion-chip class="slideT" color="primary" mode="ios" outline="true" [routerLink]="['/annonce']">
+      <ion-label>Tout</ion-label>
+    </ion-chip>
+
+    <ion-chip class="slideMag" color="primary" mode="ios" [routerLink]="['/magasin']">
+      <ion-label>Magasins</ion-label>
+    </ion-chip>
+
+    <ion-chip class="slideM" color="primary" mode="ios" outline="true" [routerLink]="['/appatement']">
+      <ion-label>Apparts Meublés</ion-label>
+    </ion-chip>
+
+    <ion-chip class="slideNM" color="primary" mode="ios" outline="true" [routerLink]="['/cours-com']">
+      <ion-label>Apparts Non Meublés</ion-label>
+    </ion-chip>
+
+    <ion-chip class="slideV" color="primary" mode="ios" outline="true" [routerLink]="['/villa']">
+      <ion-label>Villas</ion-label>
+    </ion-chip>
+  </div>
 </ion-header>
 
 <ion-content>

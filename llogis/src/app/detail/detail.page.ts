@@ -55,63 +55,6 @@ export class DetailPage implements OnInit {
     this.location.back();
   }
 
-  // async goToView(data) {
-  //   const modal = await this.modalCtrl.create({
-  //     component: ViewPage,
-  //   });
-  //   modal.present();
-  //   console.log('im', data);
-
-  // }
-
-  // call() {
-  //   this.appeler.callNumber("0022376130477", true)
-  //   .then(res => console.log('Launched dialer!', res))
-  //   .catch(err => console.log('Error launching dialer', err));
-  // }
-
-  // sendSms() {
-  //   this.sms.send('0022390555053', 'test du plugin sms').then((res) => {
-  //     console.log('envoyer');
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  // }
-
-  async showAction() {
-    const action = await this.actionSheet.create({
-      header: 'Reservation',
-      backdropDismiss: true,
-      animated: true,
-      buttons: [
-        {
-          text: 'Appeler',
-          icon: 'call',
-          handler: () => {
-            console.log('Appel lancee!');
-          }
-        },
-
-        {
-          text: 'SMS',
-          icon: 'chatbubble-ellipses',
-          handler: () => {
-            console.log('Texto SMS!');
-          }
-        },
-
-        {
-          text: 'WhatsApp',
-          icon: 'logo-whatsapp',
-          handler: () => {
-            console.log('Texto Whatsapp!');
-          }
-        },
-      ]
-    });
-    action.present();
-  }
-
   async showAlert1() {
     const alert = await this.alertCtrl.create({
       header: "Votre inscription a été prise en compte.",
@@ -120,37 +63,6 @@ export class DetailPage implements OnInit {
           text: 'Ok !',
           role: "cancel",
         },
-      ]
-    });
-    alert.present();
-  }
-
-  async showAlert() {
-    const alert = await this.alertCtrl.create({
-      header: "Veillez renseigner votre numero afin de pouvoir faire cette reservation.",
-      inputs: [
-        {
-          name:'Numero de telephone',
-          type: 'tel',
-          placeholder: "Entrez votre numero de telephone"
-        }
-      ],
-      buttons: [
-        {
-          text: 'Annuler',
-          role: "cancel",
-        },
-        {
-          text: "Continuer",
-          handler: (data) => {
-            this.showLoad().then(()=>{
-              setTimeout(()=>{
-                this.showToast();
-              },5000);
-            });
-            console.log('Inscrit !', data);
-          }
-        }
       ]
     });
     alert.present();
@@ -202,7 +114,7 @@ export class DetailPage implements OnInit {
   }
 
   call() {
-    this.callNumber.callNumber("70272328", true).then((cal) => {
+    this.callNumber.callNumber("75508128", true).then((cal) => {
       console.log("calling...");
     }).catch((err) => {
       console.log("err", err);
@@ -211,7 +123,7 @@ export class DetailPage implements OnInit {
   }
 
   sendSms() {
-    this.sms.send("70272328", "Test message").then((result) => {
+    this.sms.send("75508128", "Bonjour, je suis intéréssé par votre annonce N¨123. Merci.").then((result) => {
       console.log(result);
     }).catch((err) => {
       console.log(err);

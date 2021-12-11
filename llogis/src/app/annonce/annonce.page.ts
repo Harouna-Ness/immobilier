@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ModalController, ToastController } from '@ionic/angular';
 import { ModalPage } from '../recherche/modal/modal.page';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { Logis } from '../model/model';
 
 @Component({
   selector: 'app-annonce',
@@ -16,9 +19,20 @@ export class AnnoncePage implements OnInit {
   annonces: any;
   added: boolean = false;
 
+  slideOpts = {
+    // initialSlide: 0,
+    // direction: 'horizontal',
+    // speed: 300,
+    spaceBetween: 1,
+    // slidesPerView: 1.2,
+    // autoplay: true,
+    freeMode: true,
+    // loop: true
+  }
 
-  constructor(private router: Router, private toat: ToastController, private modal: ModalController) {
-    this.initialisation();
+  constructor(private router: Router, private toat: ToastController, private modal: ModalController, private db: AngularFirestore) {
+    // this.initialisation();
+    this.recup();
     this.tablocal = JSON.parse(localStorage.getItem('donnes'));
     console.log('tablocal ',this.tablocal);
   }
@@ -27,7 +41,7 @@ export class AnnoncePage implements OnInit {
     this.annonces = [
       {
         type:'Appart Meuble',
-        detail:'3 chambre sallon a kalaban coro plateau',
+        titre:'3 chambre sallon a kalaban coro plateau',
         description: 'description',
         nombreChambre: '',
         nombreSalon: '',
@@ -41,35 +55,35 @@ export class AnnoncePage implements OnInit {
       },
       {
         type:'Magagin',
-        detail:'8sur7 au centre ville [OUS[OW QUPQ[Q QBUQ[OQO QB[QOC[QC UQBW[QUE[ QB[QH[QQ  C BQUB[QOQ BX[UW',
+        titre:'8sur7 au centre ville [OUS[OW QUPQ[Q QBUQ[OQO QB[QOC[QC UQBW[QUE[ QB[QH[QQ  C BQUB[QOQ BX[UW',
         prix:'125000',
         id: 5,
         image:['/assets/imo2.jpg', '/assets/imo1.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
       },
       {
         type:'Appart Nmeuble',
-        detail:'3 chambre sallon a Hamdalaye aci 2000',
+        titre:'3 chambre sallon a Hamdalaye aci 2000',
         prix:'50000',
         id: 4,
         image:['/assets/imo3.jpeg', '/assets/imo2.jpg', '/assets/imo1.jpg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
       },
       {
         type:'Appart Nmeuble',
-        detail:'1 chambre sallon a Niamacoro',
+        titre:'1 chambre sallon a Niamacoro',
         prix:'15000',
         id: 3,
         image:['/assets/imo4.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo1.jpg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
       },
       {
         type:'Magagin',
-        detail:'7sur5 mettre baco djicroni aci',
+        titre:'7sur5 mettre baco djicroni aci',
         prix:'15000',
         id: 2,
         image:['/assets/imo5.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo1.jpg', '/assets/imo6.jpeg'],
       },
       {
         type:'Appart',
-        detail:'2 chambre sallon a kalaban coro koulouba',
+        titre:'2 chambre sallon a kalaban coro koulouba',
         prix:'20000',
         id: 1,
         image:['/assets/imo6.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo1.jpg'],
@@ -77,6 +91,19 @@ export class AnnoncePage implements OnInit {
     ];
 
     return this.annonces;
+  }
+
+  recup() {
+    this.db.collection('logis').snapshotChanges(['added', 'modified', 'removed']).pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Logis;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      }))
+    ).subscribe((res) => {
+      this.annonces = res;
+      console.log(this.annonces);
+    });
   }
 
   rendreVrai() {
@@ -217,4 +244,10 @@ export class AnnoncePage implements OnInit {
 
   }
 
+  segmentChanged(ev: any) {
+    console.log('Segment changed', ev);
+    if(ev.detail.value=='past') {
+      alert('past trouvé');
+    }
+  }
 }
