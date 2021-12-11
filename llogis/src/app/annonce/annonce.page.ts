@@ -28,9 +28,14 @@ export class AnnoncePage implements OnInit {
     // autoplay: true,
     freeMode: true,
     // loop: true
-  }
+  };
+  categories: any[] = [];
 
-  constructor(private router: Router, private toat: ToastController, private modal: ModalController, private db: AngularFirestore) {
+  constructor(private router: Router,
+              private toat: ToastController,
+              private modal: ModalController,
+              private db: AngularFirestore,
+             ) {
     // this.initialisation();
     this.recup();
     this.tablocal = JSON.parse(localStorage.getItem('donnes'));
@@ -103,6 +108,18 @@ export class AnnoncePage implements OnInit {
     ).subscribe((res) => {
       this.annonces = res;
       console.log(this.annonces);
+    });
+  }
+  getAnnonceByCategorie(categorieId) {
+    this.db.collection('logis', ref => ref.where("type.id", '==', categorieId)).snapshotChanges(['added', 'modified', 'removed']).pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Logis;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      }))
+    ).subscribe((res) => {
+      this.annonces = res;
+      console.log("annonce filtered", this.annonces);
     });
   }
 
@@ -241,7 +258,7 @@ export class AnnoncePage implements OnInit {
   }
 
   ngOnInit() {
-
+  this.getCategories();
   }
 
   segmentChanged(ev: any) {
@@ -250,4 +267,23 @@ export class AnnoncePage implements OnInit {
       alert('past trouvé');
     }
   }
+
+
+  getCategories() {
+    this.db.collection('categorie').snapshotChanges(['added', 'modified', 'removed']).pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Logis;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      }))
+    ).subscribe((res) => {
+      this.categories = res;
+      console.log(this.categories);
+    });
+  }
+  goToAnnonceByCategorie(categorie) {
+    console.log("type", categorie);
+    this.getAnnonceByCategorie(categorie.id);
+  }
+
 }

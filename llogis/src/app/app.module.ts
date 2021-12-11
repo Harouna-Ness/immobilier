@@ -13,6 +13,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import {environment} from "../environments/environment";
+import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +29,7 @@ import {environment} from "../environments/environment";
     AngularFirestoreModule
   ],
   providers: [
+    StatusBar,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     CallNumber,
     SMS

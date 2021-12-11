@@ -21,20 +21,12 @@
   </ion-toolbar>
 
   <div class="chips">
-    <ion-chip class="slideT" color="primary" mode="ios" [routerLink]="['/annonce']">
+    <ion-chip (click)="recup()" class="slideT" color="primary" mode="ios" [routerLink]="['/annonce']">
       <ion-label>Tout</ion-label>
     </ion-chip>
-    <ion-chip class="slideM" color="primary" mode="ios" outline="true" [routerLink]="['/appatement']">
-      <ion-label>Apparts Meublés</ion-label>
-    </ion-chip>
-    <ion-chip class="slideNM" color="primary" mode="ios" outline="true" [routerLink]="['/cours-com']">
-      <ion-label>Apparts Non Meublés</ion-label>
-    </ion-chip>
-    <ion-chip class="slideMag" color="primary" mode="ios" outline="true" [routerLink]="['/magasin']">
-      <ion-label>Magasins</ion-label>
-    </ion-chip>
-    <ion-chip class="slideV" color="primary" mode="ios" outline="true" [routerLink]="['/villa']">
-      <ion-label>Villas</ion-label>
+
+    <ion-chip *ngFor="let cat of categories" class="slideM" color="primary" mode="ios" outline="true">
+      <ion-label (click)="goToAnnonceByCategorie(cat)">{{cat?.type}}</ion-label>
     </ion-chip>
   </div>
 
@@ -74,7 +66,7 @@
               <div>
                 <div class="flex">
                   <div class="cl" (click)="goToDetail(annonce)">
-                    <h2>{{annonce.type}}</h2>
+                    <h2>{{annonce?.type?.type}}</h2>
                   </div>
 
                   <div class="b">

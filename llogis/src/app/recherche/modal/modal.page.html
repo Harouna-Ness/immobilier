@@ -15,11 +15,8 @@
     <h2>Type de local</h2>
     <ion-card>
       <ion-item lines='none'>
-          <ion-select [(ngModel)]="type" placeholder="Selectionnez">
-            <ion-select-option>Villas</ion-select-option>
-            <ion-select-option>Appatements meubles</ion-select-option>
-            <ion-select-option>Appatements non meubles</ion-select-option>
-            <ion-select-option>Magasins</ion-select-option>
+          <ion-select [(ngModel)]="rechercheAppart.typeLocalId" placeholder="Selectionnez">
+            <ion-select-option [value]="cat.id" *ngFor="let cat of categories">{{cat?.type}}</ion-select-option>
           </ion-select>
       </ion-item>
     </ion-card>
@@ -27,14 +24,23 @@
     <h2>Quartier</h2>
     <ion-card>
       <ion-item lines='none'>
-        <ion-input [(ngModel)]="quartier" type="text" placeholder="Ex: Kalaban" position="floating"></ion-input>
+          <ion-select [(ngModel)]="rechercheAppart.quartierId" placeholder="Selectionnez">
+            <ion-select-option [value]="quar.id" *ngFor="let quar of quartiers">{{quar?.name}}</ion-select-option>
+          </ion-select>
       </ion-item>
     </ion-card>
+
+<!--    <h2>Quartier</h2>-->
+<!--    <ion-card>-->
+<!--      <ion-item lines='none'>-->
+<!--        <ion-input [(ngModel)]="rechercheAppart.quartierId" type="text" placeholder="Ex: Kalaban" position="floating"></ion-input>-->
+<!--      </ion-item>-->
+<!--    </ion-card>-->
 
     <h2>Prix</h2>
     <ion-card>
       <ion-item lines='none'>
-        <ion-input [(ngModel)]="prix" type="number" placeholder="Ex: 50000 sans ecrire fcfa" position="floating"></ion-input>
+        <ion-input [(ngModel)]="rechercheAppart.prix" type="number" placeholder="Ex: 50000 sans ecrire fcfa" position="floating"></ion-input>
       </ion-item>
     </ion-card><br>
 

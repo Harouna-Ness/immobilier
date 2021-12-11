@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/auth";
+import {Platform} from "@ionic/angular";
+import { StatusBar } from '@awesome-cordova-plugins/status-bar/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -18,9 +21,22 @@ export class AppComponent {
     { title: 'Magasins', url: '/magasin', icon: 'storefront', color: '' },
   ]
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor(private afAuth: AngularFireAuth) {
+
+
+  constructor(private afAuth: AngularFireAuth,
+              private platform: Platform,
+              private statusBar: StatusBar) {
     this.afAuth.signInAnonymously().then((user) => {
       console.log("user anonyme", user);
+    });
+    this.initializeApp();
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleLightContent();
+      this.statusBar.backgroundColorByHexString('#1ba589');
+
     });
   }
 

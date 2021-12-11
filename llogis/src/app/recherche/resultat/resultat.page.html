@@ -24,7 +24,7 @@
               <div>
                 <div class="flex">
                   <div class="cl" (click)="goToDetail(annonce)">
-                    <h2>{{annonce.type}}</h2>
+                    <h2>{{annonce?.type?.type}}</h2>
                   </div>
 
                   <div class="b">
@@ -39,7 +39,7 @@
 
                 <div class="descrip" (click)="goToDetail(annonce)">
                   <p>{{annonce.detail}}</p>
-                  <p>Prix: 20000/Mois</p>
+                  <p>Prix: {{annonce?.prix}}/Mois</p>
                 </div>
 
               </div>

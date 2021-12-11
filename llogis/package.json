@@ -20,6 +20,8 @@
     "@angular/platform-browser": "~11.2.0",
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
+    "@awesome-cordova-plugins/core": "^5.37.1",
+    "@awesome-cordova-plugins/status-bar": "^5.37.1",
     "@ionic-native/call-number": "^5.36.0",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/sms": "^5.36.0",
