@@ -42,6 +42,19 @@ export class AnnoncePage implements OnInit {
     console.log('tablocal ',this.tablocal);
   }
 
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      // if (data.length == 1000) {
+      //   event.target.disabled = true;
+      // }
+    }, 500);
+  }
+
   initialisation() {
     this.annonces = [
       {

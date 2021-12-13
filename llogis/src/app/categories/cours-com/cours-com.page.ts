@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { Logis } from 'src/app/model/model';
 
 @Component({
   selector: 'app-cours-com',
@@ -14,11 +17,20 @@ export class CoursComPage implements OnInit {
   tablocal: any[];
   texte:string;
   annonces: any;
+  annoncePuls: any = [];
   added: boolean = false;
+  limite: number = 3;
+  x: number = 0;
 
-  constructor(private router: Router,private toat: ToastController) {
-    this.initialisation();
+  constructor(private router: Router,
+    private toat: ToastController,
+    private db: AngularFirestore,) {
+    this.recup();
+    // this.initialisation();
+    console.log(this.annonces);
     this.tablocal = JSON.parse(localStorage.getItem('donnes'));
+    console.log(this.annoncePuls);
+
   }
 
   initialisation() {
@@ -60,6 +72,60 @@ export class CoursComPage implements OnInit {
         image:['/assets/imo6.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo1.jpg'],
       },
     ];
+  }
+
+  recup() {
+    this.db.collection('logis', ref => ref.orderBy('numeroRef').limit(this.limite)).snapshotChanges(['added', 'modified', 'removed']).pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Logis;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      }))
+    ).subscribe((res) => {
+      this.annonces = res;
+      console.log(this.annonces);
+    });
+  }
+
+  recup1(injecter) {
+    this.db.collection('logis', ref => ref.orderBy('numeroRef').startAt((injecter+1)).limit(this.limite)).snapshotChanges(['added', 'modified', 'removed']).pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Logis;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      }))
+    ).subscribe((res) => {
+      this.annoncePuls = res;
+      console.log('plus',this.annoncePuls);
+    });
+    // for (let i = 0; i < this.annoncePuls.length; i++) {
+    //   this.annonces.push(this.annoncePuls[i])
+    // }
+    // console.log('new tab',this.annonces);
+
+  }
+
+  boucle() {
+    for (let i = this.x; i < this.annonces.length; i++) {
+      this.annoncePuls.push(this.annonces[i]);
+    }
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      this.x += this.limite;
+      console.log(this.x);
+      console.log('Done');
+      this.recup1(this.x);
+
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      // if (data.length == 1000) {
+        // event.target.disabled = true;
+      // }
+    }, 500);
   }
 
   rendreVrai() {
