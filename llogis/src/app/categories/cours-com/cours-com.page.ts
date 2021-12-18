@@ -20,17 +20,19 @@ export class CoursComPage implements OnInit {
   annoncePuls: any = [];
   added: boolean = false;
   limite: number = 3;
-  x: number = 0;
+  fin: boolean = false;
+  premierElement: any = [];
+  dernierElement: any = [];
 
   constructor(private router: Router,
     private toat: ToastController,
     private db: AngularFirestore,) {
-    this.recup();
+    // this.recup();
+    this.testRecupe();
     // this.initialisation();
     console.log(this.annonces);
     this.tablocal = JSON.parse(localStorage.getItem('donnes'));
     console.log(this.annoncePuls);
-
   }
 
   initialisation() {
@@ -87,6 +89,59 @@ export class CoursComPage implements OnInit {
     });
   }
 
+  testRecupe() {
+    this.db
+    .collection('logis',
+    ref => ref
+    .limit(this.limite)
+    .orderBy('numeroRef')
+    ).snapshotChanges()
+      .subscribe(response => {
+
+      if (!response.length) {
+          console.log("No Data Available");
+          return false;
+        }
+        this.premierElement = response[0].payload.doc;
+        this.dernierElement = response[response.length - 1].payload.doc;
+        console.log('premierElement',this.premierElement);
+
+        this.annonces = [];
+        this.annonces = response.map(item => {
+          return {
+            id: item.payload.doc.id,
+            annonce: item.payload.doc.data()
+          }
+        });
+        console.log('testRecupe',this.annonces);
+      });
+  }
+
+  next() {
+    this.db
+      .collection('logis', ref => ref
+      .limit(this.limite)
+      .orderBy('numeroRef')
+      .startAfter(this.dernierElement)
+    ).snapshotChanges()
+      .subscribe(response => {
+        if (!response.length) {
+          this.fin = true;
+          console.log("No Data Available2");
+          return;
+        }
+        this.premierElement = response[0].payload.doc;
+        this.dernierElement = response[response.length - 1].payload.doc;
+        response.forEach(element => {
+          this.annonces.push({
+            id: element.payload.doc.id,
+            annonce: element.payload.doc.data()
+          })
+        });
+      })
+      console.log('next', this.annonces);
+  }
+
   recup1(injecter) {
     this.db.collection('logis', ref => ref.orderBy('numeroRef').startAt((injecter+1)).limit(this.limite)).snapshotChanges(['added', 'modified', 'removed']).pipe(
       map(actions => actions.map(a => {
@@ -105,26 +160,17 @@ export class CoursComPage implements OnInit {
 
   }
 
-  boucle() {
-    for (let i = this.x; i < this.annonces.length; i++) {
-      this.annoncePuls.push(this.annonces[i]);
-    }
-  }
-
   loadData(event) {
     setTimeout(() => {
-      this.x += this.limite;
-      console.log(this.x);
       console.log('Done');
-      this.recup1(this.x);
-
+      this.next();
       event.target.complete();
 
       // App logic to determine if all data is loaded
       // and disable the infinite scroll
-      // if (data.length == 1000) {
-        // event.target.disabled = true;
-      // }
+      if (this.fin) {
+        event.target.disabled = true;
+      }
     }, 500);
   }
 

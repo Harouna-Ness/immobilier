@@ -17,14 +17,14 @@
         <ion-card mode="ios" button>
           <ion-row>
             <ion-col size="12">
-              <img (click)="goToDetail(annonce)" [src]="annonce.image[0]">
+              <img (click)="goToDetail(annonce)" src="/assets/imo2.jpg">
             </ion-col>
 
             <ion-col class="lateral" size="12">
               <div>
                 <div class="flex">
                   <div class="cl" (click)="goToDetail(annonce)">
-                    <h2>{{annonce?.type?.type}}</h2>
+                    <h2>{{annonce?.type}}</h2>
                   </div>
 
                   <div class="b">
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="descrip" (click)="goToDetail(annonce)">
-                  <p>{{annonce.detail}}</p>
+                  <!-- <p>{{annonce.detail}}</p> -->
                   <p>Prix: {{annonce?.prix}}/Mois</p>
                 </div>
 

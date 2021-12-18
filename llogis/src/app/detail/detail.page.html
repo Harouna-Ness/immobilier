@@ -15,8 +15,8 @@
   <ion-card class="slide">
     <ion-slides mode="ios" scrollbar="ios" [options]="slideOpts">
 
-      <ion-slide *ngFor="let img of annonces.image">
-        <img [src]="img"/>
+      <ion-slide *ngFor="let img of annonces.annonce.images">
+        <img [src]="img.path"/>
       </ion-slide>
 
     </ion-slides>
@@ -60,42 +60,42 @@
   <ion-card class="detail">
     <h3>Description</h3>
 
-    <p>{{annonces.description}}</p>
+    <p>{{annonces.annonce.description}}</p>
 
   </ion-card><br>
 
   <ion-card class="detail">
     <h3>Condition</h3>
 
-    <p>{{annonces.condition}}</p>
+    <p>{{annonces.annonce.condition}}</p>
 
   </ion-card><br>
 
   <ion-card class="detail">
     <h3>Prix</h3>
 
-    <p>{{annonces.prix}}/{{annonces.formeOffre}}</p>
+    <p>{{annonces.annonce.prix}}/{{annonces.annonce.formeOffre}}</p>
 
   </ion-card><br>
 
   <ion-card class="detail">
     <h3>Référence</h3>
 
-    <p>{{annonces.numeroRef}}</p>
+    <p>{{annonces.annonce.numeroRef}}</p>
 
   </ion-card><br>
 
   <ion-card class="detail">
     <h3>Commodités populaires</h3>
 
-    <p>{{annonces.commodites}}</p>
+    <p>{{annonces.annonce.commodites}}</p>
   </ion-card>
   <br>
 
   <ion-card class="detail">
     <h3>Service</h3>
 
-    <p>{{annonces.service}}</p>
+    <p>{{annonces.annonce.service}}</p>
   </ion-card>
   <br>
 

@@ -18,6 +18,11 @@ export class AnnoncePage implements OnInit {
   tablocal: any[];
   annonces: any;
   added: boolean = false;
+  limite: number = 5;
+  fin: boolean = false;
+  premierElement: any = [];
+  dernierElement: any = [];
+  typeFiltre: any;
 
   slideOpts = {
     // initialSlide: 0,
@@ -37,79 +42,176 @@ export class AnnoncePage implements OnInit {
               private db: AngularFirestore,
              ) {
     // this.initialisation();
-    this.recup();
+    // this.recup();
+    this.testRecupe();
     this.tablocal = JSON.parse(localStorage.getItem('donnes'));
     console.log('tablocal ',this.tablocal);
+    console.log("this.typeFiltre",this.typeFiltre);
+  }
+
+  testRecupe() {
+    this.db
+    .collection('logis',
+    ref => ref
+    .limit(this.limite)
+    .orderBy('numeroRef')
+    ).snapshotChanges()
+      .subscribe(response => {
+
+      if (!response.length) {
+          console.log("No Data Available");
+          return false;
+        }
+        this.premierElement = response[0].payload.doc;
+        this.dernierElement = response[response.length - 1].payload.doc;
+        console.log('premierElement',this.premierElement);
+
+        this.annonces = [];
+        this.annonces = response.map(item => {
+          return {
+            id: item.payload.doc.id,
+            annonce: item.payload.doc.data()
+          }
+        });
+        console.log('testRecupe',this.annonces);
+      });
+  }
+
+  next() {
+    this.db
+      .collection('logis', ref => ref
+      .limit(this.limite)
+      .orderBy('numeroRef')
+      .startAfter(this.dernierElement)
+    ).snapshotChanges()
+      .subscribe(response => {
+        if (!response.length) {
+          this.fin = true;
+          console.log("No Data Available2");
+          return;
+        }
+        this.premierElement = response[0].payload.doc;
+        this.dernierElement = response[response.length - 1].payload.doc;
+        response.forEach(element => {
+          this.annonces.push({
+            id: element.payload.doc.id,
+            annonce: element.payload.doc.data()
+          })
+        });
+      })
+      console.log('next', this.annonces);
+  }
+  nextFiltre() {
+    this.db
+      .collection('logis', ref => ref
+      .where("type", '==', this.typeFiltre)
+      .limit(this.limite)
+      .orderBy('numeroRef')
+      .startAfter(this.dernierElement)
+    ).snapshotChanges()
+      .subscribe(response => {
+        if (!response.length) {
+          this.fin = true;
+          console.log("No Data Available2");
+          return;
+        }
+        this.premierElement = response[0].payload.doc;
+        this.dernierElement = response[response.length - 1].payload.doc;
+        response.forEach(element => {
+          this.annonces.push({
+            id: element.payload.doc.id,
+            annonce: element.payload.doc.data()
+          })
+        });
+      })
+      console.log('nextFiltre', this.annonces);
   }
 
   loadData(event) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
+    if (this.typeFiltre) {
+      console.log('disponible');
+      setTimeout(() => {
+        console.log('Done');
+        this.nextFiltre();
+        event.target.complete();
 
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      // if (data.length == 1000) {
-      //   event.target.disabled = true;
-      // }
-    }, 500);
+        // App logic to determine if all data is loaded
+        // and disable the infinite scroll
+        if (this.fin) {
+          event.target.disabled = true;
+        }
+      }, 500);
+    } else {
+      console.log('non disponible');
+      setTimeout(() => {
+        console.log('Done');
+        this.next();
+        event.target.complete();
+
+        // App logic to determine if all data is loaded
+        // and disable the infinite scroll
+        if (this.fin) {
+          event.target.disabled = true;
+        }
+      }, 500);
+    }
   }
 
-  initialisation() {
-    this.annonces = [
-      {
-        type:'Appart Meuble',
-        titre:'3 chambre sallon a kalaban coro plateau',
-        description: 'description',
-        nombreChambre: '',
-        nombreSalon: '',
-        prix:'25000',
-        id: 0,
-        numeroRef: '',
-        quartier: 'kalaban coro plateau',
-        commodites:'wifi, climatiseurs...',
-        formule: 'mois',
-        image:['/assets/imo1.jpg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
-      },
-      {
-        type:'Magagin',
-        titre:'8sur7 au centre ville [OUS[OW QUPQ[Q QBUQ[OQO QB[QOC[QC UQBW[QUE[ QB[QH[QQ  C BQUB[QOQ BX[UW',
-        prix:'125000',
-        id: 5,
-        image:['/assets/imo2.jpg', '/assets/imo1.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
-      },
-      {
-        type:'Appart Nmeuble',
-        titre:'3 chambre sallon a Hamdalaye aci 2000',
-        prix:'50000',
-        id: 4,
-        image:['/assets/imo3.jpeg', '/assets/imo2.jpg', '/assets/imo1.jpg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
-      },
-      {
-        type:'Appart Nmeuble',
-        titre:'1 chambre sallon a Niamacoro',
-        prix:'15000',
-        id: 3,
-        image:['/assets/imo4.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo1.jpg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
-      },
-      {
-        type:'Magagin',
-        titre:'7sur5 mettre baco djicroni aci',
-        prix:'15000',
-        id: 2,
-        image:['/assets/imo5.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo1.jpg', '/assets/imo6.jpeg'],
-      },
-      {
-        type:'Appart',
-        titre:'2 chambre sallon a kalaban coro koulouba',
-        prix:'20000',
-        id: 1,
-        image:['/assets/imo6.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo1.jpg'],
-      },
-    ];
+  // initialisation() {
+  //   this.annonces = [
+  //     {
+  //       type:'Appart Meuble',
+  //       titre:'3 chambre sallon a kalaban coro plateau',
+  //       description: 'description',
+  //       nombreChambre: '',
+  //       nombreSalon: '',
+  //       prix:'25000',
+  //       id: 0,
+  //       numeroRef: '',
+  //       quartier: 'kalaban coro plateau',
+  //       commodites:'wifi, climatiseurs...',
+  //       formule: 'mois',
+  //       image:['/assets/imo1.jpg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
+  //     },
+  //     {
+  //       type:'Magagin',
+  //       titre:'8sur7 au centre ville [OUS[OW QUPQ[Q QBUQ[OQO QB[QOC[QC UQBW[QUE[ QB[QH[QQ  C BQUB[QOQ BX[UW',
+  //       prix:'125000',
+  //       id: 5,
+  //       image:['/assets/imo2.jpg', '/assets/imo1.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
+  //     },
+  //     {
+  //       type:'Appart Nmeuble',
+  //       titre:'3 chambre sallon a Hamdalaye aci 2000',
+  //       prix:'50000',
+  //       id: 4,
+  //       image:['/assets/imo3.jpeg', '/assets/imo2.jpg', '/assets/imo1.jpg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
+  //     },
+  //     {
+  //       type:'Appart Nmeuble',
+  //       titre:'1 chambre sallon a Niamacoro',
+  //       prix:'15000',
+  //       id: 3,
+  //       image:['/assets/imo4.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo1.jpg', '/assets/imo5.jpeg', '/assets/imo6.jpeg'],
+  //     },
+  //     {
+  //       type:'Magagin',
+  //       titre:'7sur5 mettre baco djicroni aci',
+  //       prix:'15000',
+  //       id: 2,
+  //       image:['/assets/imo5.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo1.jpg', '/assets/imo6.jpeg'],
+  //     },
+  //     {
+  //       type:'Appart',
+  //       titre:'2 chambre sallon a kalaban coro koulouba',
+  //       prix:'20000',
+  //       id: 1,
+  //       image:['/assets/imo6.jpeg', '/assets/imo2.jpg', '/assets/imo3.jpeg', '/assets/imo4.jpeg', '/assets/imo5.jpeg', '/assets/imo1.jpg'],
+  //     },
+  //   ];
 
-    return this.annonces;
-  }
+  //   return this.annonces;
+  // }
 
   recup() {
     this.db.collection('logis').snapshotChanges(['added', 'modified', 'removed']).pipe(
@@ -125,6 +227,23 @@ export class AnnoncePage implements OnInit {
   }
   getAnnonceByCategorie(categorieId) {
     this.db.collection('logis', ref => ref.where("type.id", '==', categorieId)).snapshotChanges(['added', 'modified', 'removed']).pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Logis;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      }))
+    ).subscribe((res) => {
+      this.annonces = res;
+      console.log("annonce filtered", this.annonces);
+    });
+  }
+
+  filtre(data) {
+    console.log(data.type);
+    this.typeFiltre = data.type;
+    console.log("this.typeFiltre",this.typeFiltre);
+    this.db.collection('logis', ref => ref.where("type", '==', data.type).limit(this.limite)
+    .orderBy('numeroRef')).snapshotChanges(['added', 'modified', 'removed']).pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Logis;
         const id = a.payload.doc.id;
@@ -192,10 +311,6 @@ export class AnnoncePage implements OnInit {
         this.added=false;
         console.log('la valeur de added a la fin ', this.added);
       }
-
-
-      // this.mesFavories.push(data);
-      // localStorage.setItem('donnes', JSON.stringify(this.mesFavories));
     } else {
       // deuxiement
       for (let i = 0; i < this.tablocal.length; i++) {
@@ -218,11 +333,8 @@ export class AnnoncePage implements OnInit {
 
       this.added=false;
       console.log('la valeur de added a la fin ', this.added);
-
-      // this.tablocal.push(data);
-      // localStorage.setItem('donnes', JSON.stringify(this.tablocal));
     }
-    // this.presentToast();
+
   }
 
   voirFavories() {
@@ -234,15 +346,15 @@ export class AnnoncePage implements OnInit {
     this.router.navigate(['aimes'],navigation);
   }
 
-  filtre(ev: any) {
-    this.initialisation();
-    const val = ev.target.value;
-    if(val && val.trim() != "") {
-      this.annonces = this.annonces.filter((annonce) => {
-        return (annonce.type.toLowerCase().indexOf(val.toLowerCase())>-1 || annonce.prix.toString().toLowerCase().indexOf(val.toLowerCase())>-1);
-      })
-    }
-  }
+  // filtre(ev: any) {
+  //   this.initialisation();
+  //   const val = ev.target.value;
+  //   if(val && val.trim() != "") {
+  //     this.annonces = this.annonces.filter((annonce) => {
+  //       return (annonce.type.toLowerCase().indexOf(val.toLowerCase())>-1 || annonce.prix.toString().toLowerCase().indexOf(val.toLowerCase())>-1);
+  //     })
+  //   }
+  // }
 
   async presentToast() {
     const toast = await this.toat.create({
