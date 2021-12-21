@@ -18,7 +18,7 @@ export class AnnoncePage implements OnInit {
   tablocal: any[];
   annonces: any;
   added: boolean = false;
-  limite: number = 5;
+  limite: number = 2;
   fin: boolean = false;
   premierElement: any = [];
   dernierElement: any = [];
@@ -242,17 +242,30 @@ export class AnnoncePage implements OnInit {
     console.log(data.type);
     this.typeFiltre = data.type;
     console.log("this.typeFiltre",this.typeFiltre);
-    this.db.collection('logis', ref => ref.where("type", '==', data.type).limit(this.limite)
-    .orderBy('numeroRef')).snapshotChanges(['added', 'modified', 'removed']).pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Logis;
-        const id = a.payload.doc.id;
-        return {id, ...data}
-      }))
-    ).subscribe((res) => {
-      this.annonces = res;
-      console.log("annonce filtered", this.annonces);
-    });
+    this.db
+      .collection('logis', ref => ref
+      .where("type", '==', this.typeFiltre)
+      .limit(this.limite)
+      .orderBy('numeroRef')
+    ).snapshotChanges()
+      .subscribe(response => {
+        if (!response.length) {
+          this.fin = true;
+          console.log("No Data Available2");
+          this.annonces = [];
+          return;
+        }
+        this.premierElement = response[0].payload.doc;
+        this.dernierElement = response[response.length - 1].payload.doc;
+        response.forEach(element => {
+          this.annonces = [];
+          this.annonces.push({
+            id: element.payload.doc.id,
+            annonce: element.payload.doc.data()
+          })
+        });
+        console.log("annonce filtered", this.annonces);
+      })
   }
 
   rendreVrai() {

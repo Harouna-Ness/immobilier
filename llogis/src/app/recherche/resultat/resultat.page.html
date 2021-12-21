@@ -17,14 +17,16 @@
         <ion-card mode="ios" button>
           <ion-row>
             <ion-col size="12">
-              <img (click)="goToDetail(annonce)" src="/assets/imo2.jpg">
+              <img (click)="goToDetail(annonce)"
+                *ngIf="(annonce.annonce.images) && (annonce.annonce.images.length > 0)"
+                 [src]='annonce.annonce.images[0]?.path'>
             </ion-col>
 
             <ion-col class="lateral" size="12">
               <div>
                 <div class="flex">
                   <div class="cl" (click)="goToDetail(annonce)">
-                    <h2>{{annonce?.type}}</h2>
+                    <h2>{{annonce?.annonce.type}}</h2>
                   </div>
 
                   <div class="b">
@@ -38,8 +40,8 @@
                 </div>
 
                 <div class="descrip" (click)="goToDetail(annonce)">
-                  <!-- <p>{{annonce.detail}}</p> -->
-                  <p>Prix: {{annonce?.prix}}/Mois</p>
+                  <p>{{annonce.annonce.titre}}</p>
+                  <p>Prix: {{annonce.annonce.prix}}/{{annonce.annonce.formeOffre}}</p>
                 </div>
 
               </div>
@@ -49,4 +51,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="dots" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
