@@ -4,21 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DetailPageRoutingModule } from './detail-routing.module';
+import { ReservationPageRoutingModule } from './reservation-routing.module';
 
-import { DetailPage } from './detail.page';
-import {AutosizeModule} from 'ngx-autosize';
-
-
+import { ReservationPage } from './reservation.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DetailPageRoutingModule,
-    AutosizeModule
+    ReservationPageRoutingModule
   ],
-  declarations: [DetailPage]
+  declarations: [ReservationPage]
 })
-export class DetailPageModule {}
+export class ReservationPageModule {}

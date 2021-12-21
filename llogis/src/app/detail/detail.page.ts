@@ -1,11 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// import { CallNumber } from '@ionic-native/call-number/ngx';
-// import { SMS } from '@ionic-native/sms/ngx';
 import { ActionSheetController, AlertController, IonContent, LoadingController, ModalController, ToastController } from '@ionic/angular';
-import {SMS} from "@ionic-native/sms/ngx";
+// import {SMS} from "@ionic-native/sms/ngx";
 import {CallNumber} from "@ionic-native/call-number/ngx";
+import {SendSMSPage} from "./send-sms/send-sms.page";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {ReservationPage} from "./reservation/reservation.page";
 
 @Component({
   selector: 'app-detail',
@@ -40,8 +41,8 @@ export class DetailPage implements OnInit {
     private alertCtrl: AlertController,
     private loadCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private sms: SMS,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
+    private db: AngularFirestore
     // private sms: SMS,
     // private appeler: CallNumber
     ) {
@@ -122,11 +123,24 @@ export class DetailPage implements OnInit {
     })
   }
 
-  sendSms() {
-    this.sms.send("75508128", "Bonjour, je suis intéréssé par votre annonce N¨123. Merci.").then((result) => {
-      console.log(result);
-    }).catch((err) => {
-      console.log(err);
+
+
+  async goToSendSms() {
+    this.openModal(SendSMSPage, this.annonces.annonce)
+  }
+
+
+  async openModal(page, data) {
+    const modal = await this.modalCtrl.create({
+      component: page,
+      componentProps: {
+        logis: data
+      }
     });
+    await modal.present();
+  }
+
+  reserver() {
+    this.openModal(ReservationPage, this.annonces.annonce);
   }
 }

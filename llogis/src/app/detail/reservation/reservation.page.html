@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-grid>
+      <ion-row>
+        <ion-col (click)="close()" size="1">
+          <ion-icon name="chevron-back" style="font-size: 25px;"></ion-icon>
+        </ion-col>
+        <ion-col size="11">
+          <ion-title>Reservation</ion-title>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h4 style="padding-left: 10px">Veuillez inserer votre numéro de téléphone pour soumettre la demande.</h4>
+ <div>
+   <ion-card mode="ios">
+     <ion-item>
+       <ion-icon name="call" color="primary" slot="start" style="font-size: 20px;"></ion-icon>
+       <ion-label position="floating">Téléphone</ion-label>
+       <ion-input maxlength="8" [(ngModel)]="telephone" type="tel"></ion-input>
+     </ion-item>
+   </ion-card>
+   <ion-card mode="ios">
+     <ion-item>
+       <ion-icon name="call" color="primary" slot="start" style="font-size: 20px;"></ion-icon>
+       <ion-label position="floating">Confirmation du téléphone</ion-label>
+       <ion-input maxlength="8" [(ngModel)]="telephone2" type="tel"></ion-input>
+     </ion-item>
+   </ion-card>
+ </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [disabled]="sending == true" (click)="reserver()" shape="round" mode="ios" color="primary" size="full">
+      Envoyez
+      <ion-icon slot="end" name="send"></ion-icon>
+      <ion-spinner *ngIf="sending == true"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

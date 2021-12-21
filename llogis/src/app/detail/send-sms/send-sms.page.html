@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+   <ion-grid>
+     <ion-row>
+       <ion-col (click)="close()" size="1">
+         <ion-icon name="chevron-back" style="font-size: 25px;"></ion-icon>
+       </ion-col>
+       <ion-col size="11">
+         <ion-title>SMS</ion-title>
+       </ion-col>
+     </ion-row>
+   </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card mode="ios">
+    <ion-item>
+      <ion-label position="floating">SMS</ion-label>
+      <ion-textarea  [(ngModel)]="message">
+
+      </ion-textarea>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [disabled]="sending == true" (click)="sendSms()" shape="round" mode="ios" color="primary" size="full">
+      Envoyez
+      <ion-icon slot="end" name="send"></ion-icon>
+      <ion-spinner *ngIf="sending == true"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

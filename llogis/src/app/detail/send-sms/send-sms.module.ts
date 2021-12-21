@@ -4,21 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DetailPageRoutingModule } from './detail-routing.module';
+import { SendSMSPageRoutingModule } from './send-sms-routing.module';
 
-import { DetailPage } from './detail.page';
+import { SendSMSPage } from './send-sms.page';
 import {AutosizeModule} from 'ngx-autosize';
-
-
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DetailPageRoutingModule,
+    SendSMSPageRoutingModule,
     AutosizeModule
   ],
-  declarations: [DetailPage]
+  declarations: [SendSMSPage]
 })
-export class DetailPageModule {}
+export class SendSMSPageModule {}

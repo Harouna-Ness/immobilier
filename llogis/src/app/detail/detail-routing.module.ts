@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: DetailPage
+  },
+  {
+    path: 'send-sms',
+    loadChildren: () => import('./send-sms/send-sms.module').then( m => m.SendSMSPageModule)
+  },
+  {
+    path: 'reservation',
+    loadChildren: () => import('./reservation/reservation.module').then( m => m.ReservationPageModule)
   }
 ];
 
